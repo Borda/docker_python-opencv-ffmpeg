@@ -7,7 +7,7 @@ ARG CUDNN_VERSION=7
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu18.04
 
 ARG PYTHON_VERSION=3.7
-ARG OPENCV_VERSION=4.3.0
+ARG OPENCV_VERSION=4.4.0
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
