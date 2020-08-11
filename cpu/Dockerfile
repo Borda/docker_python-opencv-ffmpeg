@@ -1,4 +1,5 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
+# https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 
 FROM ubuntu:20.04
 
@@ -29,7 +30,7 @@ RUN \
         qt5-default \
         build-essential \
         libatlas-base-dev \
-        libgtk2.0-dev \
+        libgtk-3-dev \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \
@@ -117,9 +118,12 @@ RUN \
         build-essential \
         libatlas-base-dev \
         libgtk2.0-dev \
+        libavcodec58 \
         libavcodec-dev \
+        libavformat58 \
         libavformat-dev \
         libavutil-dev \
+        libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng12-dev \

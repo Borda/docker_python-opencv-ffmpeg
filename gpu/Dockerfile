@@ -1,4 +1,6 @@
-# https://www.learnopencv.com/install-opencv3-on-ubuntu
+# https://www.learnopencv.com/install-opencv3-on-ubuntu/
+# https://computingforgeeks.com/how-to-install-opencv-on-ubuntu-linux/
+# https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 # https://docs.opencv.org/3.4/d6/d15/tutorial_building_tegra_cuda.html
 
 ARG CUDA_VERSION=10.2
@@ -41,10 +43,13 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         qt5-default \
         build-essential \
         libatlas-base-dev \
-        libgtk2.0-dev \
+        libgtk-3-dev \
+        libavcodec58 \
         libavcodec-dev \
+        libavformat58 \
         libavformat-dev \
         libavutil-dev \
+        libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
