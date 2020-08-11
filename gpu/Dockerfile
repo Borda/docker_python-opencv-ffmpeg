@@ -42,17 +42,13 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         build-essential \
         libatlas-base-dev \
         libgtk2.0-dev \
-        libavcodec57 \
         libavcodec-dev \
-        libavformat57 \
         libavformat-dev \
         libavutil-dev \
-        libswscale4 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
-        libdc1394-22 \
         libdc1394-22-dev \
         libxine2-dev \
         libv4l-dev \

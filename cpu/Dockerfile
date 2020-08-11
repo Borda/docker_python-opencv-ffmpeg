@@ -30,12 +30,9 @@ RUN \
         build-essential \
         libatlas-base-dev \
         libgtk2.0-dev \
-        libavcodec57 \
         libavcodec-dev \
-        libavformat57 \
         libavformat-dev \
         libavutil-dev \
-        libswscale4 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
