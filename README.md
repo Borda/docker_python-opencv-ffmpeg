@@ -1,12 +1,12 @@
 # Docker: Python-OpenCV-FFmpeg(-CUDA)
 
-Repository for clean Dockerfile containing [FFmpeg](https://www.ffmpeg.org/), [OpenCV4](https://opencv.org/) and [Python2/3](https://www.python.org/), based on [Ubuntu](https://www.ubuntu.com/) 18.04 LTS.
+Repository for clean Dockerfile containing [FFmpeg](https://www.ffmpeg.org/), [OpenCV4](https://opencv.org/) and [Python2/3](https://www.python.org/), based on [Ubuntu](https://www.ubuntu.com/) 20.04 LTS.
 
 
 ## Tags
 
 * `:cpu` Python 2.x/3.x, OpenCV 4.4.0, FFmpeg
-* `:gpu` Python 2.x/3.x, OpenCV 4.4.0, FFmpeg with CUDA 10.1 support
+* `:gpu` Python 2.x/3.x, OpenCV 4.4.0, FFmpeg with CUDA 10.2 support
 
 
 ## Build

@@ -1,12 +1,19 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG PYTHON_VERSION=3.7
 ARG OPENCV_VERSION=4.4.0
 
 # Install all dependencies for OpenCV
-RUN apt-get -y update -qq --fix-missing && \
+RUN \
+# add sources for older pythons
+    apt-get update && \
+    apt-get install -y --no-install-recommends software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+
+# Install all dependencies for OpenCV
+    apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \

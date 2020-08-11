@@ -1,10 +1,10 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu
 # https://docs.opencv.org/3.4/d6/d15/tutorial_building_tegra_cuda.html
 
-ARG CUDA_VERSION=10.1
+ARG CUDA_VERSION=10.2
 ARG CUDNN_VERSION=7
 
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu18.04
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu20.04
 
 ARG PYTHON_VERSION=3.7
 ARG OPENCV_VERSION=4.4.0
@@ -19,6 +19,10 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
     CUDA=`basename $CUDA_PATH` && \
     echo "$CUDA_PATH/compat" >> /etc/ld.so.conf.d/${CUDA/./-}.conf && \
     ldconfig && \
+# add sources for older pythons
+    apt-get update && \
+    apt-get install -y --no-install-recommends software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
 
 # Install all dependencies for OpenCV
     apt-get -y update -qq --fix-missing && \
