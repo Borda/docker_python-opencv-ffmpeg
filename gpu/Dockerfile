@@ -43,6 +43,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         qt5-default \
         build-essential \
         libatlas-base-dev \
+        liblapack-dev \
         libgtk-3-dev \
         libavcodec58 \
         libavcodec-dev \
@@ -142,6 +143,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         pkg-config \
         checkinstall \
         build-essential \
+        liblapack-dev \
         libatlas-base-dev \
         libgtk2.0-dev \
         libavcodec-dev \

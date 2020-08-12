@@ -29,6 +29,7 @@ RUN \
         checkinstall \
         qt5-default \
         build-essential \
+        liblapack-dev \
         libatlas-base-dev \
         libgtk-3-dev \
         libavcodec-dev \
@@ -116,6 +117,7 @@ RUN \
         pkg-config \
         checkinstall \
         build-essential \
+        liblapack-dev \
         libatlas-base-dev \
         libgtk2.0-dev \
         libavcodec58 \
