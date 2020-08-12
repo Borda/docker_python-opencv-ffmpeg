@@ -57,7 +57,7 @@ RUN \
     && \
 
 # install python dependencies
-    sysctl -w net.ipv4.ip_forward=1 && \
+    # sysctl -w net.ipv4.ip_forward=1 && \
     wget https://bootstrap.pypa.io/get-pip.py --progress=bar:force:noscroll --no-check-certificate && \
     python${PYTHON_VERSION} get-pip.py && \
     rm get-pip.py && \
