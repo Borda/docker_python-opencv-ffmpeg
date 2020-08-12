@@ -150,5 +150,7 @@ RUN \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
 
 # Call default command.
+    ffmpeg -v && \
+    ldd `which ffmpeg` && \
     python --version && \
     python -c "import cv2 ; print(cv2.__version__)"

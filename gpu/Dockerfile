@@ -3,7 +3,7 @@
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 # https://docs.opencv.org/3.4/d6/d15/tutorial_building_tegra_cuda.html
 
-ARG CUDA_VERSION=10.2
+ARG CUDA_VERSION=11.0
 ARG CUDNN_VERSION=7
 
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu20.04
@@ -173,5 +173,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
 
 # Call default command.
+    ffmpeg -v && \
+    ldd `which ffmpeg` && \
     python --version && \
     python -c "import cv2 ; print(cv2.__version__)"
