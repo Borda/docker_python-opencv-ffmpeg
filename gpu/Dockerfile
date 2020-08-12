@@ -4,9 +4,8 @@
 # https://docs.opencv.org/3.4/d6/d15/tutorial_building_tegra_cuda.html
 
 ARG CUDA_VERSION=11.0
-ARG CUDNN_VERSION=7
 
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu20.04
+FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu20.04
 
 ARG PYTHON_VERSION=3.7
 ARG OPENCV_VERSION=4.4.0
