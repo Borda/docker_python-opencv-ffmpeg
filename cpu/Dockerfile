@@ -22,6 +22,7 @@ RUN \
         wget \
         unzip \
         cmake \
+        ffmpeg \
         libtbb2 \
         gfortran \
         apt-utils \

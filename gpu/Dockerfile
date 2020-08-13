@@ -12,6 +12,8 @@ ARG OPENCV_VERSION=4.4.0
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
+# https://rtfm.co.ua/en/docker-configure-tzdata-and-timezone-during-build/
+ENV TZ=Europe
 
 # ENV LD_LIBRARY_PATH /usr/local/${CUDA}/compat:$LD_LIBRARY_PATH
 
@@ -34,6 +36,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         wget \
         unzip \
         cmake \
+        ffmpeg \
         libtbb2 \
         gfortran \
         apt-utils \
