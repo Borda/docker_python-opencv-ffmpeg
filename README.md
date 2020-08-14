@@ -12,7 +12,9 @@ Repository for clean Dockerfile containing [FFmpeg](https://www.ffmpeg.org/), [O
 ## Build
 
 [![CircleCI](https://circleci.com/gh/Borda/docker_python-opencv-ffmpeg/tree/master.svg?style=svg)](https://circleci.com/gh/Borda/docker_python-opencv-ffmpeg/tree/master)
-[![DockerHub](https://img.shields.io/docker/pulls/borda/docker_python-opencv-ffmpeg.svg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
+[![Docker Build Status](https://img.shields.io/docker/build/borda/docker_python-opencv-ffmpeg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
+[![DockerHub Pulls](https://img.shields.io/docker/pulls/borda/docker_python-opencv-ffmpeg.svg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
+[![Docker](https://img.shields.io/docker/automated/borda/docker_python-opencv-ffmpeg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
 <!--
 [![Build Status](https://travis-ci.org/Borda/docker_python-opencv-ffmpeg.svg?branch=master)](https://travis-ci.org/Borda/docker_python-opencv-ffmpeg)
 -->
