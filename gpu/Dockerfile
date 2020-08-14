@@ -47,6 +47,8 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         checkinstall \
         qt5-default \
         build-essential \
+        libopenblas-base \
+        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         #libgtk-3-dev \
@@ -120,6 +122,8 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
       -D WITH_QT=ON \
       -D WITH_OPENGL=ON \
       -D WITH_CUDA=ON \
+      -D WITH_LAPACK=ON \
+      #-D WITH_HPX=ON \
       -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
       -D CMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs \
       # https://kezunlin.me/post/6580691f
@@ -149,6 +153,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         pkg-config \
         checkinstall \
         build-essential \
+        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         #libgtk-3-dev \

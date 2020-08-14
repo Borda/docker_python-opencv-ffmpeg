@@ -36,6 +36,8 @@ RUN \
         checkinstall \
         qt5-default \
         build-essential \
+        libopenblas-base \
+        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         #libgtk-3-dev \
@@ -108,6 +110,8 @@ RUN \
       -D WITH_TBB=ON \
       -D WITH_QT=ON \
       -D WITH_OPENGL=ON \
+      -D WITH_LAPACK=ON \
+      #-D WITH_HPX=ON \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
       .. \
     && \
@@ -127,6 +131,7 @@ RUN \
         pkg-config \
         checkinstall \
         build-essential \
+        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         #libgtk-3-dev \
