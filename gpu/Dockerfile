@@ -47,8 +47,8 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         checkinstall \
         qt5-default \
         build-essential \
-        libatlas-base-dev \
         liblapack-dev \
+        libatlas-base-dev \
         #libgtk-3-dev \
         #libavcodec58 \
         libavcodec-dev \
@@ -60,6 +60,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
+        #libdc1394-22 \
         libdc1394-22-dev \
         libxine2-dev \
         libv4l-dev \
