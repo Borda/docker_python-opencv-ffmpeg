@@ -3,6 +3,8 @@
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 # https://docs.opencv.org/3.4/d6/d15/tutorial_building_tegra_cuda.html
 
+# CALL: docker image build -t python-opencv-ffmpeg:py36 -f cpu/Dockerfile --build-arg PYTHON_VERSION=3.6 .
+
 ARG CUDA_VERSION=11.0
 
 FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu20.04
@@ -12,8 +14,9 @@ ARG OPENCV_VERSION=4.4.0
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
-# https://rtfm.co.ua/en/docker-configure-tzdata-and-timezone-during-build/
-ENV TZ=Europe
+# https://techoverflow.net/2019/05/18/how-to-fix-configuring-tzdata-interactive-input-when-building-docker-images/
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Prague
 
 # ENV LD_LIBRARY_PATH /usr/local/${CUDA}/compat:$LD_LIBRARY_PATH
 
@@ -47,12 +50,12 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         libatlas-base-dev \
         liblapack-dev \
         libgtk-3-dev \
-        libavcodec58 \
+        #libavcodec58 \
         libavcodec-dev \
-        libavformat58 \
+        #libavformat58 \
         libavformat-dev \
         libavutil-dev \
-        libswscale5 \
+        #libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
@@ -175,7 +178,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
 
 # Call default command.
-    ffmpeg -v && \
-    ldd `which ffmpeg` && \
+    ffmpeg -version && \
+    #ldd `which ffmpeg` && \
     python --version && \
     python -c "import cv2 ; print(cv2.__version__)"

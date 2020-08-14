@@ -6,6 +6,12 @@ FROM ubuntu:20.04
 ARG PYTHON_VERSION=3.7
 ARG OPENCV_VERSION=4.4.0
 
+# Needed for string substitution
+SHELL ["/bin/bash", "-c"]
+# https://techoverflow.net/2019/05/18/how-to-fix-configuring-tzdata-interactive-input-when-building-docker-images/
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Prague
+
 # Install all dependencies for OpenCV
 RUN \
 # add sources for older pythons
@@ -33,9 +39,12 @@ RUN \
         liblapack-dev \
         libatlas-base-dev \
         libgtk-3-dev \
+        #libavcodec58 \
         libavcodec-dev \
+        #libavformat58 \
         libavformat-dev \
         libavutil-dev \
+        #libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
@@ -121,12 +130,9 @@ RUN \
         liblapack-dev \
         libatlas-base-dev \
         libgtk2.0-dev \
-        libavcodec58 \
         libavcodec-dev \
-        libavformat58 \
         libavformat-dev \
         libavutil-dev \
-        libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng12-dev \
@@ -151,7 +157,7 @@ RUN \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
 
 # Call default command.
-    ffmpeg -v && \
-    ldd `which ffmpeg` && \
+    ffmpeg -version && \
+    #ldd `which ffmpeg` && \
     python --version && \
     python -c "import cv2 ; print(cv2.__version__)"
