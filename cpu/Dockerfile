@@ -38,7 +38,7 @@ RUN \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
-        libgtk-3-dev \
+        #libgtk-3-dev \
         #libavcodec58 \
         libavcodec-dev \
         #libavformat58 \
@@ -129,7 +129,7 @@ RUN \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
-        libgtk2.0-dev \
+        #libgtk-3-dev \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \

@@ -49,7 +49,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         build-essential \
         libatlas-base-dev \
         liblapack-dev \
-        libgtk-3-dev \
+        #libgtk-3-dev \
         #libavcodec58 \
         libavcodec-dev \
         #libavformat58 \
@@ -150,7 +150,7 @@ RUN CUDA_PATH=(/usr/local/cuda-*) && \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
-        libgtk2.0-dev \
+        #libgtk-3-dev \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \
