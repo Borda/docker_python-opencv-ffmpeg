@@ -34,14 +34,15 @@ jobs:
     parameters:
       python:
         type: string
-      device:
-        type: string
+      # device:
+      #   type: string
     machine: true
     environment:
       - IMAGE: "ubuntu-opencv"
       - PYTHON: << parameters.python >>
       - OPENCV: "4.5.1"
-      - DEVICE: << parameters.device >>
+      # - DEVICE: << parameters.device >>
+      - DEVICE: "cpu"
     steps:
       - checkout
       - *build_image
@@ -55,4 +56,4 @@ workflows:
           matrix:
             parameters:
               python: ["2.7", "3.6", "3.7", "3.8", "3.9"]
-              device: ["cpu", "gpu"]
+              # device: ["cpu", "gpu"]
