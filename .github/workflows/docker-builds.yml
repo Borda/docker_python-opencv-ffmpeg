@@ -33,7 +33,7 @@ jobs:
 
       - name: Build and Publish to Docker Hub
         # publish master
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         # https://github.com/docker/build-push-action#cache-to-registry
         with:
           build-args: |
