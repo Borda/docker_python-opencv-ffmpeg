@@ -1,7 +1,9 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 
-FROM ubuntu:20.04
+ARG UBUNTU_VERSION=20.04
+
+FROM ubuntu:${UBUNTU_VERSION}
 
 LABEL maintainer="https://github.com/Borda"
 

@@ -17,9 +17,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        ubuntu_version: ["22.04"]
+        python_version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
         opencv_version: ["4.7.0"]
         device: ["cpu", "gpu"]
+        include:
+          - {ubuntu_version: "20.04", python_version: "2.7", opencv_version: "4.6.0", device: "cpu"}
+          - {ubuntu_version: "20.04", python_version: "2.7", opencv_version: "4.6.0", device: "gpu"}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -36,6 +40,7 @@ jobs:
         # https://github.com/docker/build-push-action#cache-to-registry
         with:
           build-args: |
+            UBUNTU_VERSION=${{ matrix.ubuntu_version }}
             PYTHON_VERSION=${{ matrix.python_version }}
             OPENCV_VERSION=${{ matrix.opencv_version }}
           file: ${{ matrix.device }}/Dockerfile
