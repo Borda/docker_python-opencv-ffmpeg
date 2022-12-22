@@ -34,8 +34,8 @@ RUN \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
-        wget \
-    && \
+        wget && \
+    rm -rf /var/lib/apt/lists/* && \
 
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -50,8 +50,7 @@ RUN \
         wget https://bootstrap.pypa.io/get-pip.py --progress=bar:force:noscroll --no-check-certificate ; \
     fi && \
     python${PYTHON_VERSION} get-pip.py && \
-    rm get-pip.py && \
-    rm -rf /var/lib/apt/lists/*
+    rm get-pip.py
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
