@@ -5,7 +5,7 @@
 
 # CALL: docker image build -t python-opencv-ffmpeg:py36 -f cpu/Dockerfile --build-arg PYTHON_VERSION=3.6 .
 
-ARG CUDA_VERSION=11.4.0
+ARG CUDA_VERSION=11.8.0
 ARG UBUNTU_VERSION=20.04
 
 FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
