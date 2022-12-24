@@ -1,7 +1,7 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 
-ARG UBUNTU_VERSION=20.04
+ARG UBUNTU_VERSION=22.04
 
 FROM ubuntu:${UBUNTU_VERSION}
 
@@ -13,8 +13,8 @@ ARG OPENCV_VERSION=4.7.0
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
 # https://techoverflow.net/2019/05/18/how-to-fix-configuring-tzdata-interactive-input-when-building-docker-images/
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Prague
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Europe/Prague
 
 RUN \
     # add sources for older pythons
