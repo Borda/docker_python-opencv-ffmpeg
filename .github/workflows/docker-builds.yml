@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         ubuntu_version: ["22.04"]
-        python_version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python_version: ["3.8", "3.9", "3.10", "3.11"]
         opencv_version: ["4.7.0"]
         device: ["cpu", "gpu"]
         include:
@@ -26,6 +26,8 @@ jobs:
           - {ubuntu_version: "20.04", python_version: "2.7", opencv_version: "4.7.0", device: "gpu"}
           - {ubuntu_version: "20.04", python_version: "3.6", opencv_version: "4.7.0", device: "cpu"}
           - {ubuntu_version: "20.04", python_version: "3.6", opencv_version: "4.7.0", device: "gpu"}
+          - {ubuntu_version: "20.04", python_version: "3.7", opencv_version: "4.7.0", device: "cpu"}
+          - {ubuntu_version: "20.04", python_version: "3.7", opencv_version: "4.7.0", device: "gpu"}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

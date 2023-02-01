@@ -27,7 +27,7 @@ RUN \
     # add sources for older pythons
     apt-get update -qq --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.8|3.9)$ ]]; then \
         add-apt-repository ppa:deadsnakes/ppa ; \
     fi && \
     apt-add-repository universe && \
@@ -45,7 +45,7 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.8|3.9)$ ]]; then \
         wget https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py --progress=bar:force:noscroll --no-check-certificate ; \
     else \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
