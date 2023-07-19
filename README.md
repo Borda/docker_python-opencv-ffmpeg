@@ -25,7 +25,7 @@ You can build it on your own, note it takes lots of time, be prepared.
 ```bash
 git clone <git-repository>
 cd docker_python-opencv-ffmpeg
-docker image build -t python-opencv-ffmpeg:py3.8 -f gpu/Dockerfile --build-arg PYTHON_VERSION=3.8 .
+docker image build -t python-opencv-ffmpeg:py3.9 -f gpu/Dockerfile --build-arg PYTHON_VERSION=3.9 .
 ```
 
 To build other versions, select different Dockerfile.

@@ -45,12 +45,12 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.8|3.9)$ ]]; then \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6)$ ]]; then \
         PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION" ; \
     else \
         PIP_URL="https://bootstrap.pypa.io" ; \
     fi && \
-    wget ${PIP_URL}/get-pip.py --progress=bar:force:noscroll --no-check-certificate ; \
+    wget ${PIP_URL}/get-pip.py --progress=bar:force:noscroll --no-check-certificate && \
     python${PYTHON_VERSION} get-pip.py && \
     rm get-pip.py
 
