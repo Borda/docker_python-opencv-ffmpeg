@@ -50,7 +50,7 @@ RUN \
     else \
         PIP_URL="https://bootstrap.pypa.io" ; \
     fi && \
-    wget ${PIP_URL}/get-pip.py --progress=bar:force:noscroll --no-check-certificate && \
+    wget "${PIP_URL}/get-pip.py" --progress=bar:force:noscroll --no-check-certificate && \
     python${PYTHON_VERSION} get-pip.py && \
     rm get-pip.py
 

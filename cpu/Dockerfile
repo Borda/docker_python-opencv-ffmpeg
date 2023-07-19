@@ -3,7 +3,7 @@
 
 ARG UBUNTU_VERSION=22.04
 
-FROM ubuntu:${UBUNTU_VERSION}
+FROM ubuntu:${UBUNTU_VERSION} AS base
 
 LABEL maintainer="https://github.com/Borda"
 
@@ -15,6 +15,9 @@ SHELL ["/bin/bash", "-c"]
 # https://techoverflow.net/2019/05/18/how-to-fix-configuring-tzdata-interactive-input-when-building-docker-images/
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Prague
+
+# ============== BASE IMAGE =====================
+# ===============================================
 
 RUN \
     # add sources for older pythons
@@ -34,20 +37,27 @@ RUN \
 
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
 
-    # install python dependencies
+ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
+
+RUN \
     # sysctl -w net.ipv4.ip_forward=1 ; \
     if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6)$ ]]; then \
         PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION" ; \
     else \
         PIP_URL="https://bootstrap.pypa.io" ; \
     fi && \
-    wget ${PIP_URL}/get-pip.py --progress=bar:force:noscroll --no-check-certificate && \
-    python${PYTHON_VERSION} get-pip.py && \
+    wget -q "${PIP_URL}/get-pip.py" --no-check-certificate && \
+    python get-pip.py && \
     rm get-pip.py
 
-ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
+
+
+# ============ COMPILE OPENCV ===================
+# ===============================================
+
+FROM base AS builder
 
 RUN \
     # Install all dependencies for OpenCV
@@ -94,9 +104,9 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
-    && \
-    pip${PYTHON_VERSION} install numpy && \
 
+RUN \
+    pip install numpy && \
 # Install OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
@@ -139,44 +149,18 @@ RUN \
 
 # Build, Test and Install
     cd /opencv/build && \
-    make -j$(nproc) && \
+    make -j$(nproc)
+
+# ============= FINAL IMAGE =====================
+# ===============================================
+
+FROM base
+COPY --from=builder /opencv/build /tmp/opencv/build
+
+RUN \
+    cd /tmp/opencv/build && \
     make install && \
     ldconfig && \
-
-# cleaning
-    apt-get -y remove \
-        unzip \
-        cmake \
-        gfortran \
-        apt-utils \
-        pkg-config \
-        checkinstall \
-        build-essential \
-        libopenblas-dev \
-        liblapack-dev \
-        libatlas-base-dev \
-        #libgtk-3-dev \
-        libavcodec-dev \
-        libavformat-dev \
-        libavutil-dev \
-        libswscale-dev \
-        libjpeg8-dev \
-        libpng-dev \
-        libtiff5-dev \
-        libdc1394-22-dev \
-        libxine2-dev \
-        libv4l-dev \
-        libgstreamer1.0-dev \
-        libgstreamer-plugins-base1.0-dev \
-        libglew-dev \
-        libpostproc-dev \
-        libeigen3-dev \
-        libtbb-dev \
-        zlib1g-dev \
-    && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /opencv /opencv_contrib /var/lib/apt/lists/* && \
 
 # Call default command.
     ffmpeg -version && \
