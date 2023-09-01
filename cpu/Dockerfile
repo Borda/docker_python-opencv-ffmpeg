@@ -21,18 +21,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN \
     # add sources for older pythons
-    apt-get update --fix-missing && \
+    apt-get update -q --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.8|3.9)$ ]]; then \
-        add-apt-repository ppa:deadsnakes/ppa ; \
-    fi && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
-        wget && \
+        wget \
+    && \
     rm -rf /var/lib/apt/lists/* && \
 
     # Set the default python and install PIP packages
@@ -51,7 +49,6 @@ RUN \
     wget -q "${PIP_URL}/get-pip.py" --no-check-certificate && \
     python get-pip.py && \
     rm get-pip.py
-
 
 
 # ============ COMPILE OPENCV ===================
@@ -103,7 +100,7 @@ RUN \
         zlib1g-dev \
         libsm6 \
         libxext6 \
-        libxrender1 \
+        libxrender1
 
 RUN \
     pip install numpy && \
@@ -115,9 +112,9 @@ RUN \
     wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv_contrib.zip && \
     mv /opencv_contrib-${OPENCV_VERSION} /opencv_contrib && \
-    rm opencv_contrib.zip && \
+    rm opencv_contrib.zip
 
-# Prepare build
+RUN \
     mkdir /opencv/build && \
     cd /opencv/build && \
     cmake \
@@ -144,10 +141,9 @@ RUN \
       -D WITH_LAPACK=ON \
       #-D WITH_HPX=ON \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
-      .. \
-    && \
+      ..
 
-# Build, Test and Install
+RUN \
     cd /opencv/build && \
     make -j$(nproc)
 
