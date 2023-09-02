@@ -48,7 +48,7 @@ RUN \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
         PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
     fi && \
-    curl $PIP_URL --progress=bar:force:noscroll --no-check-certificate | python && \
+    curl $PIP_URL | python && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
