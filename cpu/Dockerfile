@@ -25,6 +25,7 @@ RUN \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
+        curl \
         wget \
     && \
 
