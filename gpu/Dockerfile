@@ -43,13 +43,12 @@ RUN \
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
     if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
-        wget https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py --progress=bar:force:noscroll --no-check-certificate ; \
+        PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
     else \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
-        wget https://bootstrap.pypa.io/get-pip.py --progress=bar:force:noscroll --no-check-certificate ; \
+        PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
     fi && \
-    python${PYTHON_VERSION} get-pip.py && \
-    rm get-pip.py && \
+    curl $PIP_URL --progress=bar:force:noscroll --no-check-certificate | python && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
