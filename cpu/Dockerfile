@@ -1,7 +1,10 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 
-FROM ubuntu:20.04
+# ============== BASE IMAGE =====================
+# ===============================================
+
+FROM ubuntu:20.04 AS base
 
 LABEL maintainer="https://github.com/Borda"
 
@@ -11,23 +14,34 @@ ARG OPENCV_VERSION=4.8.0
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
 # https://techoverflow.net/2019/05/18/how-to-fix-configuring-tzdata-interactive-input-when-building-docker-images/
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Prague
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Europe/Prague
 
 RUN \
     # add sources for older pythons
-    apt-get update --fix-missing && \
+    apt-get update -q --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
+        build-essential \
+        cmake \
+        ffmpeg \
+        libtbb2 \
+        gfortran \
+        apt-utils \
+        pkg-config \
+        qt5-default \
+        libopenblas-base \
+        libgstreamer1.0 \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
         curl \
         wget \
     && \
+    rm -rf /var/lib/apt/lists/* && \
 
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -35,7 +49,7 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6)$ ]]; then \
         PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
     else \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
@@ -46,21 +60,17 @@ RUN \
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
+
+# ============ COMPILE OPENCV ===================
+# ===============================================
+
+FROM base AS builder
+
 RUN \
     # Install all dependencies for OpenCV
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
-        unzip \
-        cmake \
-        ffmpeg \
-        libtbb2 \
-        gfortran \
-        apt-utils \
-        pkg-config \
         checkinstall \
-        qt5-default \
-        build-essential \
-        libopenblas-base \
         libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
@@ -79,7 +89,6 @@ RUN \
         libdc1394-22-dev \
         libxine2-dev \
         libv4l-dev \
-        libgstreamer1.0 \
         libgstreamer1.0-dev \
         libgstreamer-plugins-base1.0-0 \
         libgstreamer-plugins-base1.0-dev \
@@ -90,11 +99,10 @@ RUN \
         zlib1g-dev \
         libsm6 \
         libxext6 \
-        libxrender1 \
-    && \
-    pip${PYTHON_VERSION} install numpy && \
+        libxrender1
 
-# Install OpenCV
+RUN \
+    # Install OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
     mv /opencv-${OPENCV_VERSION} /opencv && \
@@ -102,9 +110,10 @@ RUN \
     wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv_contrib.zip && \
     mv /opencv_contrib-${OPENCV_VERSION} /opencv_contrib && \
-    rm opencv_contrib.zip && \
+    rm opencv_contrib.zip
 
-# Prepare build
+RUN \
+    # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
     cmake \
@@ -131,49 +140,23 @@ RUN \
       -D WITH_LAPACK=ON \
       #-D WITH_HPX=ON \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
-      .. \
-    && \
+      ..
 
-# Build, Test and Install
+RUN \
+    # Build, Test and Install
     cd /opencv/build && \
-    make -j$(nproc) && \
+    make -j$(nproc)
+
+# ============= FINAL IMAGE =====================
+# ===============================================
+
+FROM base
+COPY --from=builder /opencv/build /tmp/opencv/build
+
+RUN \
+    cd /tmp/opencv/build && \
     make install && \
     ldconfig && \
-
-# cleaning
-    apt-get -y remove \
-        unzip \
-        cmake \
-        gfortran \
-        apt-utils \
-        pkg-config \
-        checkinstall \
-        build-essential \
-        libopenblas-dev \
-        liblapack-dev \
-        libatlas-base-dev \
-        #libgtk-3-dev \
-        libavcodec-dev \
-        libavformat-dev \
-        libavutil-dev \
-        libswscale-dev \
-        libjpeg8-dev \
-        libpng-dev \
-        libtiff5-dev \
-        libdc1394-22-dev \
-        libxine2-dev \
-        libv4l-dev \
-        libgstreamer1.0-dev \
-        libgstreamer-plugins-base1.0-dev \
-        libglew-dev \
-        libpostproc-dev \
-        libeigen3-dev \
-        libtbb-dev \
-        zlib1g-dev \
-    && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /opencv /opencv_contrib /var/lib/apt/lists/* && \
 
 # Call default command.
     ffmpeg -version && \
