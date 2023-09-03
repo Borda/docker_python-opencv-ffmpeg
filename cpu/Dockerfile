@@ -103,7 +103,7 @@ RUN \
         libxrender1
 
 RUN \
-    # Install OpenCV
+    # Download OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
     mv /opencv-${OPENCV_VERSION} /opencv && \
@@ -144,7 +144,7 @@ RUN \
       ..
 
 RUN \
-    # Build, Test and Install
+    # Build the package
     cd /opencv/build && \
     make -j$(nproc)
 
@@ -155,11 +155,13 @@ FROM base
 COPY --from=builder /opencv/build /tmp/opencv/build
 
 RUN \
+    # install the build package
     cd /tmp/opencv/build && \
     make install && \
-    ldconfig && \
+    ldconfig -v
 
-# Call default command.
+RUN \
+    # Call default command.
     ffmpeg -version && \
     #ldd `which ffmpeg` && \
     python --version && \
