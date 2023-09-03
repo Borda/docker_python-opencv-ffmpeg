@@ -13,6 +13,7 @@ Repository for clean Dockerfile containing [FFmpeg](https://www.ffmpeg.org/), [O
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/borda/docker_python-opencv-ffmpeg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
 [![DockerHub Pulls](https://img.shields.io/docker/pulls/borda/docker_python-opencv-ffmpeg.svg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
 [![Docker](https://img.shields.io/docker/automated/borda/docker_python-opencv-ffmpeg)](https://hub.docker.com/r/borda/docker_python-opencv-ffmpeg)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Borda/docker_python-opencv-ffmpeg/master.svg)](https://results.pre-commit.ci/latest/github/Borda/docker_python-opencv-ffmpeg/master)
 
 <!--
 [![Build Status](https://travis-ci.org/Borda/docker_python-opencv-ffmpeg.svg?branch=master)](https://travis-ci.org/Borda/docker_python-opencv-ffmpeg)

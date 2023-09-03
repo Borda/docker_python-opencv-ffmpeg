@@ -25,7 +25,8 @@ repos:
           - mdformat-gfm
           - mdformat_frontmatter
 
-  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
-    rev: v0.1.0
-    hooks:
-      - id: dockerfilelint
+#  TODO: find an alternative which supports multi-stage builds
+#  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
+#    rev: v0.1.0
+#    hooks:
+#      - id: dockerfilelint
