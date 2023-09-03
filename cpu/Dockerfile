@@ -40,6 +40,7 @@ RUN \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
         curl \
         wget \
+        unzip \
     && \
     rm -rf /var/lib/apt/lists/* && \
 
