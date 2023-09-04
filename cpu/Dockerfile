@@ -42,12 +42,13 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6)$ ]]; then \
-        PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION" ; \
+    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+        PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
     else \
-        PIP_URL="https://bootstrap.pypa.io" ; \
+        apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
+        PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
     fi && \
-    curl "${PIP_URL}/get-pip.py" | python && \
+    curl $PIP_URL | python && \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
