@@ -90,6 +90,7 @@ RUN \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
+        libdc1394 \
         libdc1394-dev \
         libxine2-dev \
         libv4l-dev \
