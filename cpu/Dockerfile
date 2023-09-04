@@ -35,6 +35,13 @@ RUN \
         qt5-default \
         libopenblas-base \
         libgstreamer1.0 \
+        libavcodec58 \
+        libavformat58 \
+        libswscale5 \
+        libdc1394-22 \
+        libjpeg8 \
+        libtiff5 \
+        liborc-0.4 \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
@@ -42,8 +49,11 @@ RUN \
         wget \
         unzip \
     && \
-    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/lib/apt/lists/*
 
+ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
+
+RUN \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -57,9 +67,7 @@ RUN \
         PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
     fi && \
     curl $PIP_URL | python && \
-    rm -rf /var/lib/apt/lists/*
-
-ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
+    pip install numpy
 
 
 # ============ COMPILE OPENCV ===================
@@ -75,21 +83,17 @@ RUN \
         libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
-        #libgtk-3-dev \
-        #libavcodec58 \
         libavcodec-dev \
-        #libavformat58 \
         libavformat-dev \
         libavutil-dev \
-        #libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
-        #libdc1394-22 \
         libdc1394-22-dev \
         libxine2-dev \
         libv4l-dev \
+        liborc-0.4-dev \
         libgstreamer1.0-dev \
         libgstreamer-plugins-base1.0-0 \
         libgstreamer-plugins-base1.0-dev \
@@ -104,11 +108,13 @@ RUN \
 
 RUN \
     # Download OpenCV
-    wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
+    wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
+      -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
     mv /opencv-${OPENCV_VERSION} /opencv && \
     rm opencv.zip && \
-    wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
+    wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip \
+      -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv_contrib.zip && \
     mv /opencv_contrib-${OPENCV_VERSION} /opencv_contrib && \
     rm opencv_contrib.zip
@@ -139,8 +145,9 @@ RUN \
       -D WITH_QT=ON \
       -D WITH_OPENGL=ON \
       -D WITH_LAPACK=ON \
+      -D ENABLE_PRECOMPILED_HEADERS=ON \
+      -d BUILD_SHARED_LIBS=OFF \
       #-D WITH_HPX=ON \
-      -D ENABLE_PRECOMPILED_HEADERS=OFF \
       ..
 
 RUN \
@@ -152,13 +159,15 @@ RUN \
 # ===============================================
 
 FROM base
-COPY --from=builder /opencv/build /tmp/opencv/build
+COPY --from=builder /opencv/build /opencv/build
 
 RUN \
     # install the build package
-    cd /tmp/opencv/build && \
-    make install && \
-    ldconfig -v
+    cd /opencv/build && \
+    ls -lh && \
+    make install  --debug && \
+    ldconfig -v && \
+    rm -rf /opencv
 
 RUN \
     # Call default command.
