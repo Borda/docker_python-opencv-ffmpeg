@@ -65,7 +65,7 @@ RUN \
         apt-utils \
         pkg-config \
         checkinstall \
-        qt5-default \
+        qtbase5-dev qt5-qmake \
         build-essential \
         libopenblas-base \
         libopenblas-dev \
@@ -78,7 +78,7 @@ RUN \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
-        libdc1394-22-dev \
+        libdc1394-dev \
         libxine2-dev \
         libv4l-dev \
         libgstreamer1.0 \
@@ -161,7 +161,7 @@ RUN \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
-        libdc1394-22-dev \
+        libdc1394-dev \
         libxine2-dev \
         libv4l-dev \
         libgstreamer1.0-dev \
