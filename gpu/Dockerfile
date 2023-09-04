@@ -36,9 +36,12 @@ RUN \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
-        wget && \
-    rm -rf /var/lib/apt/lists/* && \
+        curl \
+        wget \
+    && \
+    rm -rf /var/lib/apt/lists/*
 
+RUN \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -50,9 +53,8 @@ RUN \
     else \
         PIP_URL="https://bootstrap.pypa.io" ; \
     fi && \
-    wget "${PIP_URL}/get-pip.py" --progress=bar:force:noscroll --no-check-certificate && \
-    python${PYTHON_VERSION} get-pip.py && \
-    rm get-pip.py
+    curl "${PIP_URL}/get-pip.py" | python && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
@@ -80,18 +82,13 @@ RUN \
         libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
-        #libgtk-3-dev \
-        #libavcodec58 \
         libavcodec-dev \
-        #libavformat58 \
         libavformat-dev \
         libavutil-dev \
-        #libswscale5 \
         libswscale-dev \
         libjpeg8-dev \
         libpng-dev \
         libtiff5-dev \
-        #libdc1394-22 \
         libdc1394-22-dev \
         libxine2-dev \
         libv4l-dev \
@@ -108,7 +105,7 @@ RUN \
         libxext6 \
         libxrender1 \
     && \
-    pip${PYTHON_VERSION} install numpy && \
+    pip install numpy && \
 
 # Install OpenCV
     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O opencv.zip --progress=bar:force:noscroll && \
@@ -179,7 +176,6 @@ RUN \
         libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
-        #libgtk-3-dev \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \
@@ -200,10 +196,12 @@ RUN \
     && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /opencv /opencv_contrib /var/lib/apt/lists/* && \
+    rm -rf /opencv /opencv_contrib /var/lib/apt/lists/*
 
-# Call default command.
+RUN \
+    # Call default command.
     ffmpeg -version && \
     #ldd `which ffmpeg` && \
     python --version && \
+    pip list && \
     python -c "import cv2 ; print(cv2.__version__)"

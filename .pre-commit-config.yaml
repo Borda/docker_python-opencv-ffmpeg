@@ -24,3 +24,8 @@ repos:
         additional_dependencies:
           - mdformat-gfm
           - mdformat_frontmatter
+
+  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
+    rev: v0.1.0
+    hooks:
+      - id: dockerfilelint
