@@ -21,7 +21,9 @@ RUN \
     # add sources for older pythons
     apt-get update -q --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7)$ ]]; then \
+        add-apt-repository ppa:deadsnakes/ppa ; \
+    fi && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
