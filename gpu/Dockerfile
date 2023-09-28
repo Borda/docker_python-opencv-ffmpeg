@@ -188,7 +188,6 @@ RUN \
         libglew-dev \
         libpostproc-dev \
         libeigen3-dev \
-        libtbb-dev \
         zlib1g-dev \
     && \
     apt-get autoremove -y && \
