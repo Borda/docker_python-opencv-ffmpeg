@@ -36,7 +36,6 @@ repos:
       - id: prettier
         # https://prettier.io/docs/en/options.html#print-width
         args: ["--print-width=120"]
-
 #  TODO: find an alternative which supports multi-stage builds
 #  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
 #    rev: v0.1.0
