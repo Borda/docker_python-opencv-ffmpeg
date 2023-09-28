@@ -4,7 +4,9 @@
 # ============== BASE IMAGE =====================
 # ===============================================
 
-FROM ubuntu:20.04 AS base
+ARG UBUNTU_VERSION=22.04
+
+FROM ubuntu:${UBUNTU_VERSION} AS base
 
 LABEL maintainer="https://github.com/Borda"
 
@@ -21,18 +23,20 @@ RUN \
     # add sources for older pythons
     apt-get update -q --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
+    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7)$ ]]; then \
+        add-apt-repository ppa:deadsnakes/ppa ; \
+    fi && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         build-essential \
         cmake \
         ffmpeg \
-        libtbb2 \
+        $( [ "$UBUNTU_VERSION" = "20.04" ] && libtbb2 || libtbb12 ) \
         gfortran \
         apt-utils \
         pkg-config \
-        qt5-default \
+        qtbase5-dev qt5-qmake \
         libopenblas-base \
         libgstreamer1.0 \
         libavcodec58 \
@@ -49,11 +53,8 @@ RUN \
         wget \
         unzip \
     && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
 
-ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
-
-RUN \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -174,4 +175,5 @@ RUN \
     ffmpeg -version && \
     #ldd `which ffmpeg` && \
     python --version && \
+    pip list && \
     python -c "import cv2 ; print(cv2.__version__)"
