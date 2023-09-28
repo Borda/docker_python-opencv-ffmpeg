@@ -72,7 +72,7 @@ RUN \
         unzip \
         cmake \
         ffmpeg \
-        libtbb2 \
+        libtbb12 \
         gfortran \
         apt-utils \
         pkg-config \
