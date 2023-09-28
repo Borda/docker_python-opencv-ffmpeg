@@ -33,11 +33,8 @@ RUN \
         curl \
         wget \
     && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
 
-ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
-
-RUN \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
@@ -50,8 +47,9 @@ RUN \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
         PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
     fi && \
-    curl $PIP_URL | python && \
-    rm -rf /var/lib/apt/lists/*
+    curl $PIP_URL | python
+
+ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
 RUN \
     # Install all dependencies for OpenCV
@@ -60,7 +58,7 @@ RUN \
         unzip \
         cmake \
         ffmpeg \
-        libtbb12 \
+        $( [ "$UBUNTU_VERSION" = "20.04" ] && libtbb2 || libtbb12 ) \
         gfortran \
         apt-utils \
         pkg-config \
