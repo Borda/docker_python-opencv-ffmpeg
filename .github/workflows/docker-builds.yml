@@ -19,13 +19,13 @@ jobs:
       matrix:
         ubuntu_version: ["20.04"]
         python_version: ["2.7", "3.6", "3.7", "3.8", "3.9"]
-        opencv_version: ["4.8.1"]
+        opencv_version: ["4.9.0"]
         device: ["cpu", "gpu"]
         include:
-          - { ubuntu_version: "22.04", python_version: "3.10", opencv_version: "4.8.1", device: "cpu" }
-          - { ubuntu_version: "22.04", python_version: "3.10", opencv_version: "4.8.1", device: "gpu" }
-          - { ubuntu_version: "22.04", python_version: "3.11", opencv_version: "4.8.1", device: "cpu" }
-          - { ubuntu_version: "22.04", python_version: "3.11", opencv_version: "4.8.1", device: "gpu" }
+          - { ubuntu_version: "22.04", python_version: "3.10", opencv_version: "4.9.0", device: "cpu" }
+          - { ubuntu_version: "22.04", python_version: "3.10", opencv_version: "4.9.0", device: "gpu" }
+          - { ubuntu_version: "22.04", python_version: "3.11", opencv_version: "4.9.0", device: "cpu" }
+          - { ubuntu_version: "22.04", python_version: "3.11", opencv_version: "4.9.0", device: "gpu" }
     steps:
       - name: Checkout
         uses: actions/checkout@v4

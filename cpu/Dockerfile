@@ -8,7 +8,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 LABEL maintainer="https://github.com/Borda"
 
 ARG PYTHON_VERSION=3.9
-ARG OPENCV_VERSION=4.8.0
+ARG OPENCV_VERSION=4.9.0
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
