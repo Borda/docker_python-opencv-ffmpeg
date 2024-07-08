@@ -48,13 +48,6 @@ jobs:
               device: "gpu",
               cuda_version: "12.5.0",
             }
-          - {
-              ubuntu_version: "22.04",
-              python_version: "3.13",
-              opencv_version: "4.10.0",
-              device: "gpu",
-              cuda_version: "12.5.0",
-            }
     steps:
       - name: Checkout
         uses: actions/checkout@v4
