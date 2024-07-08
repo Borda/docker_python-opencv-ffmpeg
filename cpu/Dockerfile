@@ -1,14 +1,14 @@
 # https://www.learnopencv.com/install-opencv3-on-ubuntu/
 # https://www.osradar.com/how-to-install-opencv-on-ubuntu-20-04/
 
-ARG UBUNTU_VERSION=22.04
+ARG UBUNTU_VERSION="22.04"
 
 FROM ubuntu:${UBUNTU_VERSION}
 
 LABEL maintainer="https://github.com/Borda"
 
-ARG PYTHON_VERSION=3.9
-ARG OPENCV_VERSION=4.9.0
+ARG PYTHON_VERSION="3.9"
+ARG OPENCV_VERSION="4.10.0"
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
@@ -41,7 +41,7 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" || "$PYTHON_VERSION" == "3.7" ]]; then \
         PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
     else \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
