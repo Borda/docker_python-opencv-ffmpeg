@@ -47,7 +47,7 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" ]]; then \
+    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" || "$PYTHON_VERSION" == "3.7" ]]; then \
         PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
     else \
         apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
