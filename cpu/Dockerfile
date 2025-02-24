@@ -21,7 +21,7 @@ RUN \
     # add sources for older pythons
     apt-get update -q --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.12)$ ]]; then \
+    if [[ "$PYTHON_VERSION" =~ ^(3.7|3.12)$ ]]; then \
         add-apt-repository ppa:deadsnakes/ppa ; \
     fi && \
     apt-add-repository universe && \
@@ -41,12 +41,8 @@ RUN \
 
     # install python dependencies
     # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" || "$PYTHON_VERSION" == "3.7" ]]; then \
-        PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
-    else \
-        apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
-        PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
-    fi && \
+    apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils && \
+    PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
     curl $PIP_URL | python
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
