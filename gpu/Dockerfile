@@ -27,15 +27,13 @@ RUN \
     # add sources for older pythons
     apt-get update -qq --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    if [[ "$PYTHON_VERSION" =~ ^(3.7|3.12)$ ]]; then \
-        add-apt-repository ppa:deadsnakes/ppa ; \
-    fi && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
-        $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
+        python${PYTHON_VERSION}-distutils \
         curl \
         wget \
     && \
@@ -67,7 +65,6 @@ RUN \
         unzip \
         cmake \
         ffmpeg \
-        $( [ "$UBUNTU_VERSION" = "20.04" ] && libtbb2 || libtbb12 ) \
         gfortran \
         apt-utils \
         pkg-config \
@@ -123,8 +120,8 @@ RUN \
       -D BUILD_TESTS=OFF \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
-      -D BUILD_opencv_python3=$( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "ON" || echo "OFF" ) \
-      -D BUILD_opencv_python2=$( [ ${PYTHON_VERSION%%.*} -lt 3 ] && echo "ON" || echo "OFF" ) \
+      -D BUILD_opencv_python3=ON \
+      -D BUILD_opencv_python2=OFF \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
