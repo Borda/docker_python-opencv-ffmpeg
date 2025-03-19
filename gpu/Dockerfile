@@ -24,35 +24,26 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # ENV LD_LIBRARY_PATH /usr/local/${CUDA}/compat:$LD_LIBRARY_PATH
 
 RUN \
-    # add sources for older pythons
     apt-get update -qq --fix-missing && \
-    apt-get install -y --no-install-recommends software-properties-common && \
-    if [[ "$PYTHON_VERSION" =~ ^(2.7|3.6|3.7|3.12)$ ]]; then \
-        add-apt-repository ppa:deadsnakes/ppa ; \
-    fi && \
+    apt-get install -y --no-install-recommends \
+        software-properties-common \
+        dirmngr \
+        gnupg && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
-        $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
+        $( if [ "${PYTHON_VERSION%%.*}" -eq 3 ] && [ "${PYTHON_VERSION#*.}" -lt 10 ]; then echo "python${PYTHON_VERSION}-distutils"; fi ) \
         curl \
-        wget \
-    && \
+        wget && \
     rm -rf /var/lib/apt/lists/* && \
-
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
-
     # install python dependencies
-    # sysctl -w net.ipv4.ip_forward=1 ; \
-    if [[ "$PYTHON_VERSION" == "2.7" || "$PYTHON_VERSION" == "3.6" || "$PYTHON_VERSION" == "3.7" ]]; then \
-        PIP_URL="https://bootstrap.pypa.io/pip/$PYTHON_VERSION/get-pip.py" ; \
-    else \
-        apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils ; \
-        PIP_URL="https://bootstrap.pypa.io/get-pip.py" ; \
-    fi && \
+    PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
     curl $PIP_URL | python
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
@@ -63,22 +54,18 @@ RUN \
     CUDA=`basename $CUDA_PATH` && \
     echo "$CUDA_PATH/compat" >> /etc/ld.so.conf.d/${CUDA/./-}.conf && \
     ldconfig && \
-
-# Install all dependencies for OpenCV
+    # Install all dependencies for OpenCV
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         unzip \
         cmake \
         ffmpeg \
-        $( [ "$UBUNTU_VERSION" = "20.04" ] && libtbb2 || libtbb12 ) \
         gfortran \
         apt-utils \
         pkg-config \
         checkinstall \
         qtbase5-dev qt5-qmake \
         build-essential \
-        libopenblas-base \
-        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         libavcodec-dev \
@@ -104,8 +91,7 @@ RUN \
         libxrender1 \
     && \
     pip install numpy && \
-
-# Install OpenCV
+    # Install OpenCV
     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O opencv.zip --progress=bar:force:noscroll && \
     unzip -q opencv.zip && \
     mv /opencv-$OPENCV_VERSION /opencv && \
@@ -114,8 +100,7 @@ RUN \
     unzip -q opencv_contrib.zip && \
     mv /opencv_contrib-$OPENCV_VERSION /opencv_contrib && \
     rm opencv_contrib.zip && \
-
-# Prepare build
+    # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
     cmake \
@@ -126,8 +111,8 @@ RUN \
       -D BUILD_TESTS=OFF \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
-      -D BUILD_opencv_python3=$( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "ON" || echo "OFF" ) \
-      -D BUILD_opencv_python2=$( [ ${PYTHON_VERSION%%.*} -lt 3 ] && echo "ON" || echo "OFF" ) \
+      -D BUILD_opencv_python3=ON \
+      -D BUILD_opencv_python2=OFF \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
@@ -148,21 +133,19 @@ RUN \
       # https://stackoverflow.com/questions/28010399/build-opencv-with-cuda-support
       -D CUDA_ARCH_BIN="5.3 6.1 7.0 7.5" \
       -D CUDA_ARCH_PTX="" \
-      -D WITH_CUBLAS=ON \
+      #-D WITH_CUBLAS=ON \
       -D WITH_NVCUVID=ON \
       -D ENABLE_FAST_MATH=1 \
       -D CUDA_FAST_MATH=1 \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
       .. \
     && \
-
-# Build, Test and Install
+   # Build, Test and Install
     cd /opencv/build && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
-
-# cleaning
+   # cleaning
    apt-get -y remove \
         unzip \
         cmake \
@@ -171,7 +154,6 @@ RUN \
         pkg-config \
         checkinstall \
         build-essential \
-        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         libavcodec-dev \

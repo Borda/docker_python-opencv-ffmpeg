@@ -1,3 +1,6 @@
+default_language_version:
+  python: python3
+
 ci:
   autofix_prs: true
   autoupdate_commit_msg: "[pre-commit.ci] pre-commit suggestions"
@@ -23,9 +26,10 @@ repos:
       - id: codespell
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
+        args: ["--number"]
         additional_dependencies:
           - mdformat-gfm
           - mdformat_frontmatter
@@ -41,4 +45,4 @@ repos:
       - id: prettier
         files: \.(json|yml|yaml|toml)
         # https://prettier.io/docs/en/options.html#print-width
-        args: ["--print-width=120"]
+        args: ["--print-width=140"]
