@@ -69,7 +69,6 @@ RUN \
         checkinstall \
         qtbase5-dev qt5-qmake \
         build-essential \
-        libopenblas-base \
         liblapack-dev \
         libatlas-base-dev \
         libavcodec-dev \
@@ -139,7 +138,7 @@ RUN \
       # https://stackoverflow.com/questions/28010399/build-opencv-with-cuda-support
       -D CUDA_ARCH_BIN="5.3 6.1 7.0 7.5" \
       -D CUDA_ARCH_PTX="" \
-      -D WITH_CUBLAS=ON \
+      #-D WITH_CUBLAS=ON \
       -D WITH_NVCUVID=ON \
       -D ENABLE_FAST_MATH=1 \
       -D CUDA_FAST_MATH=1 \
