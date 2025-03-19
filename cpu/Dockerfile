@@ -18,9 +18,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 
 RUN \
-    # add sources for older pythons
     apt-get update -qq --fix-missing && \
-    apt-get install -y --no-install-recommends software-properties-common && \
+    apt-get install -y --no-install-recommends \
+        software-properties-common \
+        dirmngr \
+        gnupg && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
@@ -29,8 +31,7 @@ RUN \
         python${PYTHON_VERSION}-dev \
         python${PYTHON_VERSION}-distutils \
         curl \
-        wget \
-    && \
+        wget && \
     rm -rf /var/lib/apt/lists/* && \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
