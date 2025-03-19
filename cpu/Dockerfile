@@ -30,15 +30,13 @@ RUN \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( if [ "${PYTHON_VERSION%%.*}" -eq 3 ] && [ "${PYTHON_VERSION#*.}" -lt 10 ]; then echo "python${PYTHON_VERSION}-distutils"; fi ) \
+        python${PYTHON_VERSION}-pip \
         curl \
         wget && \
     rm -rf /var/lib/apt/lists/* && \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
-    # install python dependencies
-    PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
-    curl $PIP_URL | python
+    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
