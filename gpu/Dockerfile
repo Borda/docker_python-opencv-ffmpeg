@@ -89,6 +89,7 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
+        libgtk-3-dev \
     && \
     pip install numpy && \
     # Install OpenCV
