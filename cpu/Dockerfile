@@ -27,7 +27,7 @@ RUN \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
-        $( [ ${PYTHON_VERSION%%.*} -ge 3 ] && echo "python${PYTHON_VERSION}-distutils" ) \
+        python${PYTHON_VERSION}-distutils \
         curl \
         wget \
     && \
@@ -86,17 +86,17 @@ RUN \
     && \
     pip install numpy && \
 
-# Install OpenCV
+    # Install OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
-    mv /opencv-${OPENCV_VERSION} /opencv && \
+    mv /opencv-$OPENCV_VERSION /opencv && \
     rm opencv.zip && \
     wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv_contrib.zip && \
-    mv /opencv_contrib-${OPENCV_VERSION} /opencv_contrib && \
+    mv /opencv_contrib-$OPENCV_VERSION /opencv_contrib && \
     rm opencv_contrib.zip && \
 
-# Prepare build
+    # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
     cmake \
@@ -126,13 +126,13 @@ RUN \
       .. \
     && \
 
-# Build, Test and Install
+    # Build, Test and Install
     cd /opencv/build && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
 
-# cleaning
+    # cleaning
     apt-get -y remove \
         unzip \
         cmake \

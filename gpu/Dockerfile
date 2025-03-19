@@ -47,7 +47,6 @@ RUN \
     # sysctl -w net.ipv4.ip_forward=1 ; \
     apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils && \
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
-    fi && \
     curl $PIP_URL | python
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
@@ -59,7 +58,7 @@ RUN \
     echo "$CUDA_PATH/compat" >> /etc/ld.so.conf.d/${CUDA/./-}.conf && \
     ldconfig && \
 
-# Install all dependencies for OpenCV
+    # Install all dependencies for OpenCV
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
         unzip \
@@ -99,7 +98,7 @@ RUN \
     && \
     pip install numpy && \
 
-# Install OpenCV
+    # Install OpenCV
     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O opencv.zip --progress=bar:force:noscroll && \
     unzip -q opencv.zip && \
     mv /opencv-$OPENCV_VERSION /opencv && \
@@ -109,7 +108,7 @@ RUN \
     mv /opencv_contrib-$OPENCV_VERSION /opencv_contrib && \
     rm opencv_contrib.zip && \
 
-# Prepare build
+    # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
     cmake \
@@ -150,13 +149,13 @@ RUN \
       .. \
     && \
 
-# Build, Test and Install
+   # Build, Test and Install
     cd /opencv/build && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
 
-# cleaning
+   # cleaning
    apt-get -y remove \
         unzip \
         cmake \
