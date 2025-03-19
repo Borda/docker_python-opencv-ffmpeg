@@ -36,7 +36,7 @@ RUN \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
         $( if [ "${PYTHON_VERSION%%.*}" -eq 3 ] && [ "${PYTHON_VERSION#*.}" -lt 10 ]; then echo "python${PYTHON_VERSION}-distutils"; fi ) \
-        $( if [ "${PYTHON_VERSION}" -eq "3.12" ]; then echo "python3-pip"; fi ) \
+        $( if [ "${PYTHON_VERSION}" == "3.12" ]; then echo "python3-pip"; fi ) \
         curl \
         wget && \
     rm -rf /var/lib/apt/lists/* && \
@@ -45,7 +45,7 @@ RUN \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
     # install python dependencies
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
-    if [ "${PYTHON_VERSION}" -ne "3.12" ]; then \
+    if [ "${PYTHON_VERSION}" != "3.12" ]; then \
         curl $PIP_URL | python ; \
     fi
 
