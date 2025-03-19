@@ -39,11 +39,9 @@ RUN \
         curl \
         wget && \
     rm -rf /var/lib/apt/lists/* && \
-
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
-
     # install python dependencies
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
     curl $PIP_URL | python
@@ -56,7 +54,6 @@ RUN \
     CUDA=`basename $CUDA_PATH` && \
     echo "$CUDA_PATH/compat" >> /etc/ld.so.conf.d/${CUDA/./-}.conf && \
     ldconfig && \
-
     # Install all dependencies for OpenCV
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
@@ -94,7 +91,6 @@ RUN \
         libxrender1 \
     && \
     pip install numpy && \
-
     # Install OpenCV
     wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O opencv.zip --progress=bar:force:noscroll && \
     unzip -q opencv.zip && \
@@ -104,7 +100,6 @@ RUN \
     unzip -q opencv_contrib.zip && \
     mv /opencv_contrib-$OPENCV_VERSION /opencv_contrib && \
     rm opencv_contrib.zip && \
-
     # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
@@ -145,13 +140,11 @@ RUN \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
       .. \
     && \
-
    # Build, Test and Install
     cd /opencv/build && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
-
    # cleaning
    apt-get -y remove \
         unzip \
