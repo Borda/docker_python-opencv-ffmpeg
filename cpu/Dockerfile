@@ -29,7 +29,6 @@ RUN \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
-        python${PYTHON_VERSION}-distutils \
         curl \
         wget && \
     rm -rf /var/lib/apt/lists/* && \
