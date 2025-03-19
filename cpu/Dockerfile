@@ -19,9 +19,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN \
     # add sources for older pythons
-    apt-get update -q --fix-missing && \
+    apt-get update -qq --fix-missing && \
     apt-get install -y --no-install-recommends software-properties-common && \
-    # add-apt-repository ppa:deadsnakes/ppa && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
@@ -32,13 +32,10 @@ RUN \
         wget \
     && \
     rm -rf /var/lib/apt/lists/* && \
-
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
-
     # install python dependencies
-    # sysctl -w net.ipv4.ip_forward=1 ; \
     apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils && \
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
     curl $PIP_URL | python
