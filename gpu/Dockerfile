@@ -29,9 +29,7 @@ RUN \
         software-properties-common \
         dirmngr \
         gnupg && \
-    if [[ "${PYTHON_VERSION%%.*}" -eq 3 && "${PYTHON_VERSION#*.}" -lt 10 ]]; then \
-        add-apt-repository ppa:deadsnakes/ppa ; \
-    fi && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
