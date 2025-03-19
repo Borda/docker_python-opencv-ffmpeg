@@ -79,20 +79,17 @@ RUN \
         zlib1g-dev \
         libsm6 \
         libxext6 \
-        libxrender1 \
-    && \
+        libxrender1 && \
     pip install numpy && \
-
     # Install OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv.zip && \
-    mv /opencv-$OPENCV_VERSION /opencv && \
+    mv opencv-${OPENCV_VERSION} /opencv && \
     rm opencv.zip && \
     wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -O opencv_contrib.zip --progress=bar:force:noscroll --no-check-certificate && \
     unzip -q opencv_contrib.zip && \
-    mv /opencv_contrib-$OPENCV_VERSION /opencv_contrib && \
+    mv opencv_contrib-${OPENCV_VERSION} /opencv_contrib && \
     rm opencv_contrib.zip && \
-
     # Prepare build
     mkdir /opencv/build && \
     cd /opencv/build && \
@@ -120,15 +117,12 @@ RUN \
       -D WITH_LAPACK=ON \
       #-D WITH_HPX=ON \
       -D ENABLE_PRECOMPILED_HEADERS=OFF \
-      .. \
-    && \
-
+      .. && \
     # Build, Test and Install
     cd /opencv/build && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
-
     # cleaning
     apt-get -y remove \
         unzip \
@@ -155,8 +149,7 @@ RUN \
         libglew-dev \
         libpostproc-dev \
         libeigen3-dev \
-        zlib1g-dev \
-    && \
+        zlib1g-dev && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /opencv /opencv_contrib /var/lib/apt/lists/*
