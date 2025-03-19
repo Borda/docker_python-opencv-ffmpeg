@@ -29,6 +29,7 @@ RUN \
     apt-get -y install --no-install-recommends \
         python${PYTHON_VERSION} \
         python${PYTHON_VERSION}-dev \
+        $( if [ "${PYTHON_VERSION%%.*}" -eq 3 ] && [ "${PYTHON_VERSION#*.}" -lt 10 ]; then echo "python${PYTHON_VERSION}-distutils"; fi ) \
         curl \
         wget && \
     rm -rf /var/lib/apt/lists/* && \
