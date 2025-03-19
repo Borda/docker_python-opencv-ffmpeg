@@ -70,7 +70,6 @@ RUN \
         qtbase5-dev qt5-qmake \
         build-essential \
         libopenblas-base \
-        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         libavcodec-dev \
@@ -163,7 +162,6 @@ RUN \
         pkg-config \
         checkinstall \
         build-essential \
-        libopenblas-dev \
         liblapack-dev \
         libatlas-base-dev \
         libavcodec-dev \
