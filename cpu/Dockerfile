@@ -37,9 +37,11 @@ RUN \
     # Set the default python and install PIP packages
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
-    # install python dependencies
+    # install python dependencies \
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
-    curl $PIP_URL | python
+    if [ "${PYTHON_VERSION}" -ne "3.12" ]; then \
+        curl $PIP_URL | python ; \
+    fi
 
 ENV PYTHONPATH="/usr/lib/python${PYTHON_VERSION}/site-packages:/usr/local/lib/python${PYTHON_VERSION}/site-packages"
 
