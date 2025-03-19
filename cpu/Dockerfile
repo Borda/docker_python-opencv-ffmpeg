@@ -36,7 +36,6 @@ RUN \
     update-alternatives --install /usr/bin/python${PYTHON_VERSION%%.*} python${PYTHON_VERSION%%.*} /usr/bin/python${PYTHON_VERSION} 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 && \
     # install python dependencies
-    apt-get -y install --no-install-recommends python${PYTHON_VERSION}-distutils && \
     PIP_URL="https://bootstrap.pypa.io/get-pip.py" && \
     curl $PIP_URL | python
 
