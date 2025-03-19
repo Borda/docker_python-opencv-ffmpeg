@@ -24,10 +24,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # ENV LD_LIBRARY_PATH /usr/local/${CUDA}/compat:$LD_LIBRARY_PATH
 
 RUN \
-    # add sources for older pythons
     apt-get update -qq --fix-missing && \
-    apt-get install -y --no-install-recommends software-properties-common && \
-    # add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get install -y --no-install-recommends \
+        software-properties-common \
+        dirmngr \
+        gnupg && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-add-repository universe && \
     apt-get -y update -qq --fix-missing && \
     apt-get -y install --no-install-recommends \
@@ -35,8 +37,7 @@ RUN \
         python${PYTHON_VERSION}-dev \
         python${PYTHON_VERSION}-distutils \
         curl \
-        wget \
-    && \
+        wget && \
     rm -rf /var/lib/apt/lists/* && \
 
     # Set the default python and install PIP packages
