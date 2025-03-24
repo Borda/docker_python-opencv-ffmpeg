@@ -79,6 +79,9 @@ RUN \
         libxext6 \
         libxrender1 \
         libgtk-3-dev \
+        freeglut3-dev \
+        libgl1-mesa-dev \
+        libglu1-mesa-de \
     && \
     pip install numpy && \
     # Install OpenCV
