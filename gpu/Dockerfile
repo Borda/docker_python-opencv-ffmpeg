@@ -90,7 +90,6 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
-        libgtk-3-dev \
     && \
     pip install numpy && \
     # Install OpenCV
@@ -118,6 +117,7 @@ RUN \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
+      -D BUILD_opencv_highgui=OFF \
       -D WITH_IPP=OFF \
       -D WITH_FFMPEG=ON \
       -D WITH_GSTREAMER=ON \
