@@ -64,7 +64,9 @@ RUN \
         apt-utils \
         pkg-config \
         checkinstall \
-        qtbase5-dev qt5-qmake \
+        qtbase5-dev \
+        qt5-qmake \
+        libqt5x11extras5-dev \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
@@ -116,7 +118,6 @@ RUN \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
-      -D WITH_OPENGL=OFF \
       -D WITH_IPP=OFF \
       -D WITH_FFMPEG=ON \
       -D WITH_GSTREAMER=ON \
