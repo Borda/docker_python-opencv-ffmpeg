@@ -90,6 +90,8 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
+        libwebpmux3 \
+        libwebpdemux2 \
     && \
     pip install numpy && \
     # Install OpenCV
