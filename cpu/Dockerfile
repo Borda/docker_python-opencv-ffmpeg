@@ -55,7 +55,6 @@ RUN \
         checkinstall \
         qtbase5-dev \
         qt5-qmake \
-        libqt5x11extras5-dev \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
@@ -80,6 +79,7 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
+        libgtk-3-dev \
     && \
     pip install numpy && \
     # Install OpenCV
