@@ -13,7 +13,7 @@ FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 LABEL maintainer="https://github.com/Borda"
 
 ARG PYTHON_VERSION="3.9"
-ARG OPENCV_VERSION="4.10.0"
+ARG OPENCV_VERSION="4.11.0"
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
@@ -64,7 +64,8 @@ RUN \
         apt-utils \
         pkg-config \
         checkinstall \
-        qtbase5-dev qt5-qmake \
+        qtbase5-dev \
+        qt5-qmake \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
@@ -89,6 +90,8 @@ RUN \
         libsm6 \
         libxext6 \
         libxrender1 \
+        libwebpmux3 \
+        libwebpdemux2 \
     && \
     pip install numpy && \
     # Install OpenCV
@@ -116,6 +119,7 @@ RUN \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
+      -D BUILD_opencv_highgui=OFF \
       -D WITH_IPP=OFF \
       -D WITH_FFMPEG=ON \
       -D WITH_GSTREAMER=ON \

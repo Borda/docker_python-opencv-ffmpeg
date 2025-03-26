@@ -8,7 +8,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 LABEL maintainer="https://github.com/Borda"
 
 ARG PYTHON_VERSION="3.9"
-ARG OPENCV_VERSION="4.10.0"
+ARG OPENCV_VERSION="4.11.0"
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
@@ -53,7 +53,8 @@ RUN \
         apt-utils \
         pkg-config \
         checkinstall \
-        qtbase5-dev qt5-qmake \
+        qtbase5-dev \
+        qt5-qmake \
         build-essential \
         liblapack-dev \
         libatlas-base-dev \
@@ -77,7 +78,10 @@ RUN \
         zlib1g-dev \
         libsm6 \
         libxext6 \
-        libxrender1 && \
+        libxrender1 \
+        libwebpmux3 \
+        libwebpdemux2 \
+    && \
     pip install numpy && \
     # Install OpenCV
     wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -O opencv.zip --progress=bar:force:noscroll --no-check-certificate && \
@@ -104,6 +108,7 @@ RUN \
       -D PYTHON${PYTHON_VERSION%%.*}_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D PYTHON_DEFAULT_EXECUTABLE=$(which python${PYTHON_VERSION}) \
       -D BUILD_EXAMPLES=OFF \
+      -D BUILD_opencv_highgui=OFF \
       -D WITH_IPP=OFF \
       -D WITH_FFMPEG=ON \
       -D WITH_GSTREAMER=ON \
@@ -146,7 +151,8 @@ RUN \
         libglew-dev \
         libpostproc-dev \
         libeigen3-dev \
-        zlib1g-dev && \
+        zlib1g-dev \
+    && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /opencv /opencv_contrib /var/lib/apt/lists/*
