@@ -13,7 +13,7 @@ FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 LABEL maintainer="https://github.com/Borda"
 
 ARG PYTHON_VERSION="3.9"
-ARG OPENCV_VERSION="4.11.0"
+ARG OPENCV_VERSION="4.12.0"
 
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]

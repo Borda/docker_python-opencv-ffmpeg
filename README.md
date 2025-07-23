@@ -4,8 +4,8 @@ Repository for clean Dockerfile containing [FFmpeg](https://www.ffmpeg.org/), [O
 
 ## Tags
 
-- `:cpu-pyX.y-cvX.y.z` for Python 3.x, OpenCV 4.11.x, FFmpeg
-- `:gpu-pyX.y-cvX.y.z` for Python 3.x, OpenCV 4.11.x, FFmpeg with CUDA 12.x support
+- `:cpu-pyX.y-cvX.y.z` for Python 3.x, OpenCV 4.12.x, FFmpeg
+- `:gpu-pyX.y-cvX.y.z` for Python 3.x, OpenCV 4.12.x, FFmpeg with CUDA 12.x support
 
 ## Build
 
