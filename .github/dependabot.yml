@@ -15,5 +15,3 @@ updates:
       separator: "-"
     # Allow up to 5 open pull requests for GitHub Actions
     open-pull-requests-limit: 5
-    reviewers:
-      - "borda"
