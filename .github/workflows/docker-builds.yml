@@ -13,12 +13,12 @@ concurrency:
 
 jobs:
   build-push:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         ubuntu_version: ["22.04"]
-        python_version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python_version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         opencv_version: ["4.11.0"]
         device: ["cpu", "gpu"]
         cuda_version: ["12.4.1"]
